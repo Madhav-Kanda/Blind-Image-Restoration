@@ -22,12 +22,11 @@ from discriminator import Discriminator
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-torch.backends.cudnn.benchmark = True
 
 ## Config variables
 LOAD_MODEL = False
 SAVE_MODEL = True
-NUM_EPOCHS = 5
+NUM_EPOCHS = 100
 
 
 def train_fn(disc, gen, loader, opt_disc, opt_gen, l1_loss, lpips_loss , bce, g_scaler, d_scaler,epoch, epochs):
@@ -40,10 +39,10 @@ def train_fn(disc, gen, loader, opt_disc, opt_gen, l1_loss, lpips_loss , bce, g_
         with torch.cuda.amp.autocast():
             y_fake = gen(Image_blur)
             D_real = disc(Image_sharp).view(-1)
-            D_real_loss = bce(D_real, torch.ones_like(D_real))
+            D_real_loss = bce(D_real, torch.ones_like(D_real).to(DEVICE))
 
             D_fake = disc(y_fake.detach()).view(-1)
-            D_fake_loss = bce(D_fake, torch.zeros_like(D_fake))
+            D_fake_loss = bce(D_fake, torch.zeros_like(D_fake).to(DEVICE))
             D_loss = D_real_loss + D_fake_loss
 
         disc.zero_grad()
