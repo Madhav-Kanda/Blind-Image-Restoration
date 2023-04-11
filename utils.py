@@ -14,23 +14,24 @@ def save_some_examples(gen, loader, epoch, folder):
     gen.eval()
     with torch.no_grad():
         y_fake = gen(x)
-        fake_clear = (y_fake - y_fake.min())/ (y_fake.max() - y_fake.min())
-        blur = (x - x.min())/ (x.max() - x.min())
-        clear = (y - y.min())/ (y.max() - y.min())
+        fake_clear = (y_fake - y_fake.min()) / (y_fake.max() - y_fake.min())
+        blur = (x - x.min()) / (x.max() - x.min())
+        clear = (y - y.min()) / (y.max() - y.min())
 
         output = torch.cat((blur, clear, fake_clear), dim=3)
         save_image(output, folder + f"/img_{epoch}.png")
     gen.train()
 
-def save_val_examples(Image_blur,Image_sharp,gen,num,folder):
-    x,y = Image_blur,Image_sharp
-    x,y = x.to(DEVICE),y.to(DEVICE)
+
+def save_val_examples(Image_blur, Image_sharp, gen, num, folder):
+    x, y = Image_blur, Image_sharp
+    x, y = x.to(DEVICE), y.to(DEVICE)
     gen.eval()
     with torch.no_grad():
         y_fake = gen(x)
-        fake_clear = (y_fake - y_fake.min())/ (y_fake.max() - y_fake.min())
-        blur = (x - x.min())/ (x.max() - x.min())
-        clear = (y - y.min())/ (y.max() - y.min())
+        fake_clear = (y_fake - y_fake.min()) / (y_fake.max() - y_fake.min())
+        blur = (x - x.min()) / (x.max() - x.min())
+        clear = (y - y.min()) / (y.max() - y.min())
 
         psnr = piq.psnr(clear, fake_clear)
         ssim = piq.ssim(clear, fake_clear)
@@ -42,7 +43,6 @@ def save_val_examples(Image_blur,Image_sharp,gen,num,folder):
         save_image(output, folder + f"/img_{num}.png")
     gen.train()
     return psnr.item(), ssim.item(), ms_ssim.item(), f_sim.item(), vif.item()
-
 
 
 def save_checkpoint(model, optimizer, filename="my_checkpoint.pth.tar"):
@@ -67,12 +67,11 @@ def load_checkpoint(checkpoint_file, model, optimizer, lr):
 
 
 def lossplot(GenData, DiscData, filename):
-    plt.plot(GenData, label='Gen')
-    plt.plot(DiscData, label='Disc')
-    plt.xlabel('Epochs')
-    plt.ylabel('Loss')
-    plt.title('Loss plots of Generator and Discriminator')
+    plt.plot(GenData, label="Gen")
+    plt.plot(DiscData, label="Disc")
+    plt.xlabel("Epochs")
+    plt.ylabel("Loss")
+    plt.title("Loss plots of Generator and Discriminator")
     plt.legend()
     plt.savefig(filename)
     plt.clf()
-

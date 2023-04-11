@@ -1,23 +1,24 @@
 import pandas as pd
-data = pd.read_csv('image_metrics.csv')
 
-mean_psnr = data['PSNR'].mean()
-print(f'Average PSNR : {mean_psnr}')
+data = pd.read_csv("image_metrics.csv")
 
-mean_ssim = data['SSIM'].mean()
-print(f'Average SSIM : {mean_ssim}')
+mean_psnr = data["PSNR"].mean()
+print(f"Average PSNR : {mean_psnr}")
 
-mean_msssim = data['MS-SSIM'].mean()
-print(f'Average MS-SSIM : {mean_msssim}')
+mean_ssim = data["SSIM"].mean()
+print(f"Average SSIM : {mean_ssim}")
 
-mean_fsim = data['F_SIM'].mean()
-print(f'Average F-SIM : {mean_fsim}')
+mean_msssim = data["MS-SSIM"].mean()
+print(f"Average MS-SSIM : {mean_msssim}")
 
-mean_vif = data['VIF'].mean()
-print(f'Average VIF : {mean_vif}')
+mean_fsim = data["F_SIM"].mean()
+print(f"Average F-SIM : {mean_fsim}")
 
-mean_fid = data['FID'].mean()
-print(f'Average FID : {mean_fid}')
+mean_vif = data["VIF"].mean()
+print(f"Average VIF : {mean_vif}")
+
+mean_fid = data["FID"].mean()
+print(f"Average FID : {mean_fid}")
 
 # Average PSNR : 22.648135892460854
 # Average SSIM : 0.8316014530172062

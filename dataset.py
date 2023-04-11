@@ -13,43 +13,46 @@ import torch
 
 
 class DeblurData(Dataset):
-    def __init__(self, path, data_type='train', shape=256):
-        self.paths  = natsorted(glob(path+'/*'))
-        self.data_type   = data_type
-        self.shape       = shape
+    def __init__(self, path, data_type="train", shape=256):
+        self.paths = natsorted(glob(path + "/*"))
+        self.data_type = data_type
+        self.shape = shape
         # print(self.paths)
 
     def __len__(self):
         return len(self.paths)
 
-
-    def __getitem__(self, idx):  
-        ## Opening Image as PIL object --> Numpy object --> Pytorch Tensor object       
+    def __getitem__(self, idx):
+        ## Opening Image as PIL object --> Numpy object --> Pytorch Tensor object
         image = torch.from_numpy(np.array(Image.open(self.paths[idx])))
 
-        ## Use one half of image --> Normalize --> Permute its dimensions 
+        ## Use one half of image --> Normalize --> Permute its dimensions
         ## Pytorch CNN expects the dimensions as (batch_size, channel, height, width) where as usually it is (height, width, channel)
-        sharp_image = torch.permute(image[:,:256,:]/255.0, (2, 0, 1))
-        blur_image = torch.permute(image[:,256:,:]/255.0, (2, 0, 1))
+        sharp_image = torch.permute(image[:, :256, :] / 255.0, (2, 0, 1))
+        blur_image = torch.permute(image[:, 256:, :] / 255.0, (2, 0, 1))
 
-    ## If you want to check the images are correctly taken then run the below code:
+        ## If you want to check the images are correctly taken then run the below code:
         # cv2.imwrite('Image Sharp.png', np.uint8(sharp_image.numpy()))
         # cv2.imwrite('Image Blur.png', np.uint8(blur_image.numpy()))
         # pdb.set_trace()
         # cv2.waitKey(0)
         # cv2.destroyAllWindows()
 
-        return  blur_image,sharp_image
-        
+        return blur_image, sharp_image
 
-if __name__ == '__main__':
-    traindata_obj = DeblurData(path='datasets/train', data_type='train')
-    train_batch   = DataLoader(traindata_obj, batch_size=1, shuffle=True, num_workers=16, pin_memory=True)  
 
-    testdata_obj = DeblurData(path='datasets/test', data_type='test')
-    test_batch   = DataLoader(testdata_obj, batch_size=1, shuffle=True, num_workers=16, pin_memory=True)  
+if __name__ == "__main__":
+    traindata_obj = DeblurData(path="datasets/train", data_type="train")
+    train_batch = DataLoader(
+        traindata_obj, batch_size=1, shuffle=True, num_workers=16, pin_memory=True
+    )
+
+    testdata_obj = DeblurData(path="datasets/test", data_type="test")
+    test_batch = DataLoader(
+        testdata_obj, batch_size=1, shuffle=True, num_workers=16, pin_memory=True
+    )
 
     tq = tqdm(train_batch)
-    for x,y in tq:
-        print(x.shape,y.shape)
+    for x, y in tq:
+        print(x.shape, y.shape)
         pass
