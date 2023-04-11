@@ -1,6 +1,8 @@
 import torch
+import piq
 from torchvision.utils import save_image
 import matplotlib.pyplot as plt
+import pandas as pd
 
 # Config
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -30,9 +32,17 @@ def save_val_examples(Image_blur,Image_sharp,gen,num,folder):
         blur = (x - x.min())/ (x.max() - x.min())
         clear = (y - y.min())/ (y.max() - y.min())
 
+        psnr = piq.psnr(clear, fake_clear)
+        ssim = piq.ssim(clear, fake_clear)
+        ms_ssim = piq.multi_scale_ssim(clear, fake_clear)
+        f_sim = piq.fsim(clear, fake_clear)
+        vif = piq.vif_p(clear, fake_clear)
+
         output = torch.cat((blur, clear, fake_clear), dim=3)
         save_image(output, folder + f"/img_{num}.png")
     gen.train()
+    return psnr.item(), ssim.item(), ms_ssim.item(), f_sim.item(), vif.item()
+
 
 
 def save_checkpoint(model, optimizer, filename="my_checkpoint.pth.tar"):

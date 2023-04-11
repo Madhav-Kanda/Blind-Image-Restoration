@@ -1,3 +1,5 @@
+test_gopro
+train_gopro
 *.png
 *.jpg
 *.pth.tar

@@ -21,12 +21,15 @@ from generator import Generator
 from discriminator import Discriminator
 from torch.utils.data import DataLoader
 from tqdm import tqdm
+from diff_augment import DiffAugment
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 ## Config variables
 LOAD_MODEL = False
 SAVE_MODEL = True
-NUM_EPOCHS = 100
+NUM_EPOCHS = 512
+
+diff_augment_policies = "color,translation"
 
 
 def train_fn(disc, gen, loader, opt_disc, opt_gen, l1_loss, lpips_loss , bce, g_scaler, d_scaler,epoch, epochs):
@@ -38,10 +41,15 @@ def train_fn(disc, gen, loader, opt_disc, opt_gen, l1_loss, lpips_loss , bce, g_
         # Train Discriminator
         with torch.cuda.amp.autocast():
             y_fake = gen(Image_blur)
-            D_real = disc(Image_sharp).view(-1)
+            
+            y_fake_aug      = DiffAugment(y_fake, policy=diff_augment_policies)
+            Image_sharp_aug = DiffAugment(Image_sharp, policy=diff_augment_policies)
+
+            D_real = disc(Image_sharp_aug).view(-1)
+
             D_real_loss = bce(D_real, torch.ones_like(D_real).to(DEVICE))
 
-            D_fake = disc(y_fake.detach()).view(-1)
+            D_fake = disc(y_fake_aug.detach()).view(-1)
             D_fake_loss = bce(D_fake, torch.zeros_like(D_fake).to(DEVICE))
             D_loss = D_real_loss + D_fake_loss
 
@@ -52,7 +60,8 @@ def train_fn(disc, gen, loader, opt_disc, opt_gen, l1_loss, lpips_loss , bce, g_
 
         # Train generator
         with torch.cuda.amp.autocast():
-            D_fake = disc(y_fake.detach()).view(-1)
+        	# y_fake_aug = DiffAugment(y_fake, policy=diff_augment_policies)
+            D_fake = disc(y_fake_aug.detach()).view(-1)
             Adversarial_loss = torch.mean(-1*torch.log(D_fake))
 
             L1_LPIPS = torch.mean(l1_loss(y_fake, Image_sharp)*170 + lpips_loss(y_fake,Image_sharp)*145)
@@ -91,10 +100,10 @@ def main():
     d_scaler = torch.cuda.amp.GradScaler()
 
     ## Dataset Loaders
-    train_dataset = DeblurData(path='datasets/train', data_type='train')
-    train_loader = DataLoader(train_dataset, batch_size=2, shuffle=True,num_workers=16, pin_memory=True)
+    train_dataset = DeblurData(path='train_gopro', data_type='train')
+    train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True,num_workers=16, pin_memory=True)
 
-    val_dataset = DeblurData(path="datasets/test")          
+    val_dataset = DeblurData(path="test_gopro")          
     val_loader = DataLoader(val_dataset, batch_size=1, shuffle=False)
 
     ## Lists for appending Discriminator and Generator loss
