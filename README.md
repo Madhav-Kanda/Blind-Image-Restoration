@@ -2,6 +2,11 @@
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 
+<div align = center>
+<img width="800" alt="image" src="https://github.com/Madhav-Kanda/DeblurGAN/assets/76394914/ab017047-007b-4b74-89d6-ede7a410a48e">
+</div>
+
+--------------------------------------------------------------------------------
 This repository presents a PyTorch-based implementation of [Deep Generative Filter for Motion Deblurring](https://openaccess.thecvf.com/content_ICCV_2017_workshops/papers/w43/Ramakrishnan_Deep_Generative_Filter_ICCV_2017_paper.pdf) with the integration of advanced techniques to significantly enhance the model's performance.
 This repository contains a PyTorch-based implementation of Deep Generative Filter for Motion Deblurring. We have incorporated the latest techniques to enhance the results.
 
@@ -36,7 +41,4 @@ Feel free to explore the code and experiment with different settings to achieve 
     - **discriminator.py:** includes the code for the discriminator network used for adversarial training.
     
     - **utils.py:** provides utility functions and helper code used throughout the project.
-
-
-<img width="1007" alt="image" src="https://github.com/Madhav-Kanda/DeblurGAN/assets/76394914/ab017047-007b-4b74-89d6-ede7a410a48e">
 
