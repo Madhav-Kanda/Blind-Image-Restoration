@@ -1,7 +1,6 @@
 # DeblurGAN
 
-Pytorch-based implementation of Deep Generative Filter for Motion Deblurring. Incorporated the latest techniques to enhance the results.
-
+This repository presents a PyTorch-based implementation of [Deep Generative Filter for Motion Deblurring](https://openaccess.thecvf.com/content_ICCV_2017_workshops/papers/w43/Ramakrishnan_Deep_Generative_Filter_ICCV_2017_paper.pdf) with the integration of advanced techniques to significantly enhance the model's performance.
 This repository contains a PyTorch-based implementation of Deep Generative Filter for Motion Deblurring. We have incorporated the latest techniques to enhance the results.
 
 ## Features
