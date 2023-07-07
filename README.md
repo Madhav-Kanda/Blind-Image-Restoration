@@ -36,4 +36,6 @@ Feel free to explore the code and experiment with different settings to achieve 
     
     - **utils.py:** provides utility functions and helper code used throughout the project.
 
-<img width="1007" alt="image" src="https://github.com/Madhav-Kanda/DeblurGAN/assets/76394914/c3de020b-dedd-40b7-b443-42d1c5604a1e">
+
+<img width="1007" alt="image" src="https://github.com/Madhav-Kanda/DeblurGAN/assets/76394914/ab017047-007b-4b74-89d6-ede7a410a48e">
+
