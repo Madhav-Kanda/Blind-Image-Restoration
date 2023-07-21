@@ -9,6 +9,11 @@
 --------------------------------------------------------------------------------
 This repository presents a PyTorch-based implementation of [Deep Generative Filter for Motion Deblurring](https://openaccess.thecvf.com/content_ICCV_2017_workshops/papers/w43/Ramakrishnan_Deep_Generative_Filter_ICCV_2017_paper.pdf) with the integration of advanced techniques to significantly enhance the model's performance.
 
+This repository offers a comprehensive PyTorch-based implementation of the innovative research paper titled "Deep Generative Filter for Motion Deblurring," accessible at [link](https://openaccess.thecvf.com/content_ICCV_2017_workshops/papers/w43/Ramakrishnan_Deep_Generative_Filter_ICCV_2017_paper.pdf). Building upon the original model, we have integrated cutting-edge techniques to enhance its performance remarkably.
+
+The model is designed to take a pair of blurred and deblurred images as input during training and produce the deblurred image for the unseen image fed during testing. By leveraging PyTorch's powerful capabilities, this implementation offers both reliability and flexibility, making it suitable for various motion deblurring applications. We have gone beyond the initial research to incorporate optimizations and improvements, ensuring the model's robustness and adaptability across different scenarios. 
+
+
 ## Features
 
 1. In contrast to the VGG loss commonly used in generator networks, we employ the Learned Perceptual Image Patch Similarity (LPIPS) loss function in our approach, as it provides more accurate coverage of color contrast.
